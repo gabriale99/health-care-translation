@@ -1,4 +1,3 @@
-"use client";
 import InputContainer from "./components/InputContainer";
 import TranslateContainer from "./components/TranslateContainer";
 

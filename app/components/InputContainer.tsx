@@ -1,7 +1,8 @@
+"use client";
 import { useEffect } from "react";
+import useTranslateStore from "../stores/translate-store";
 import LanguageSelector from "./LanguageSelector";
 import TextArea from "./TextArea";
-import useTranslateStore from "../stores/translate-store";
 // import TextToSpeechButton from "./TextToSpeechButton";
 
 interface TranslateRespose {
@@ -20,19 +21,12 @@ const InputContainer = () => {
     updateSource,
   } = useTranslateStore();
 
-  const apiKey =
-    process.env.NODE_ENV === "production"
-      ? process.env.API_KEY
-      : process.env.NEXT_PUBLIC_API_KEY;
-
   useEffect(() => {
     if (input) {
-      fetch(
-        `https://translation.googleapis.com/language/translate/v2?key=${apiKey!}&q=${input}&target=${target}`,
-        {
-          method: "POST",
-        }
-      )
+      fetch(`/api/translate`, {
+        method: "POST",
+        body: JSON.stringify({ q: input, target }),
+      })
         .then((res) => res.json())
         .then((json) => {
           updateTranslation(

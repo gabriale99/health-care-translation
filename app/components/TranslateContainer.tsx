@@ -1,7 +1,7 @@
-import React from "react";
-import TextArea from "./TextArea";
-import LanguageSelector from "./LanguageSelector";
+"use client";
 import useTranslateStore from "../stores/translate-store";
+import LanguageSelector from "./LanguageSelector";
+import TextArea from "./TextArea";
 
 const TranslateContainer = () => {
   const { translation, target, updateTarget } = useTranslateStore();

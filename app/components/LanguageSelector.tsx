@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SupportedLanguage {
   language: string;
@@ -11,19 +11,11 @@ interface Props {
 }
 
 const LanguageSelector = ({ lang, setLang }: Props) => {
-  const apiKey =
-    process.env.NODE_ENV === "production"
-      ? process.env.API_KEY
-      : process.env.NEXT_PUBLIC_API_KEY;
-
   useEffect(() => {
-    fetch(
-      `https://translation.googleapis.com/language/translate/v2/languages?key=${apiKey!}`,
-      {
-        method: "POST",
-        body: '{"target": "en"}',
-      }
-    )
+    fetch(`/api/languages`, {
+      method: "POST",
+      body: '{"target": "en"}',
+    })
       .then((res) => res.json())
       .then((json) => {
         const handPicked = json.data.languages.filter(
@@ -31,7 +23,6 @@ const LanguageSelector = ({ lang, setLang }: Props) => {
             ["en", "es", "zh-TW", "ja"].includes(l.language)
         );
         setLanguages(handPicked);
-        // console.log(json);
       });
   }, []);
 
