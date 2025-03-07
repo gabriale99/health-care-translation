@@ -20,11 +20,15 @@ const InputContainer = () => {
     updateSource,
   } = useTranslateStore();
 
+  const apiKey =
+    process.env.NODE_ENV === "production"
+      ? process.env.API_KEY
+      : process.env.NEXT_PUBLIC_API_KEY;
+
   useEffect(() => {
     if (input) {
       fetch(
-        `https://translation.googleapis.com/language/translate/v2?key=${process
-          .env.NEXT_PUBLIC_API_KEY!}&q=${input}&target=${target}`,
+        `https://translation.googleapis.com/language/translate/v2?key=${apiKey!}&q=${input}&target=${target}`,
         {
           method: "POST",
         }
