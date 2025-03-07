@@ -11,10 +11,14 @@ interface Props {
 }
 
 const LanguageSelector = ({ lang, setLang }: Props) => {
+  const apiKey =
+    process.env.NODE_ENV === "production"
+      ? process.env.API_KEY
+      : process.env.NEXT_PUBLIC_API_KEY;
+
   useEffect(() => {
     fetch(
-      `https://translation.googleapis.com/language/translate/v2/languages?key=${process
-        .env.NEXT_PUBLIC_API_KEY!}`,
+      `https://translation.googleapis.com/language/translate/v2/languages?key=${apiKey!}`,
       {
         method: "POST",
         body: '{"target": "en"}',
