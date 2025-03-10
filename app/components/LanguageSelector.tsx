@@ -1,44 +1,31 @@
-import { useEffect, useState } from "react";
+import useTranslateStore from "../stores/translate-store";
 
-interface SupportedLanguage {
-  language: string;
-  name: string;
-}
+const LanguageSelector = ({ id }: { id: number }) => {
+  const languages = [
+    "English",
+    "Traditional Chinese",
+    "Korean",
+    "Spanish",
+    "Hindi",
+  ];
 
-interface Props {
-  lang: string;
-  setLang: (target: string) => void;
-}
-
-const LanguageSelector = ({ lang, setLang }: Props) => {
-  useEffect(() => {
-    fetch(`/api/languages`, {
-      method: "POST",
-      body: '{"target": "en"}',
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        const handPicked = json.data.languages.filter(
-          (l: { language: string }) =>
-            ["en", "es", "zh-TW", "ja"].includes(l.language)
-        );
-        setLanguages(handPicked);
-      });
-  }, []);
-
-  const regularStyle = "hover:bg-sky-100 p-2";
-  const selectedStyle = "bg-sky-200 p-2";
-  const [languages, setLanguages] = useState<SupportedLanguage[]>([]);
+  const { translations, updateTarget } = useTranslateStore();
+  const regularStyle = "grow p-2 hover:bg-sky-100";
+  const selectedStyle =
+    "grow p-2 bg-sky-200 border-b-1 border-b-sky-500 font-bold";
 
   return (
-    <div className="flex flex-row flex-wrap">
+    <div className="flex flex-row flex-wrap items-center px-1 mb-1">
+      <span className="font-extrabold">Target language</span>
       {languages?.map((sl) => (
         <button
-          key={sl.language}
-          className={lang === sl.language ? selectedStyle : regularStyle}
-          onClick={() => setLang(sl.language)}
+          key={sl}
+          className={
+            translations[id].target === sl ? selectedStyle : regularStyle
+          }
+          onClick={() => updateTarget(id, sl)}
         >
-          {sl.name}
+          {sl}
         </button>
       ))}
     </div>

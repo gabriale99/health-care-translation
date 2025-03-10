@@ -1,26 +1,36 @@
 import { create } from "zustand";
 
 interface TranslateStore {
-  input: string;
-  translation: string;
-  source: string;
-  target: string;
-  updateInput: (newInput: string) => void;
-  updateTranslation: (newInput: string) => void;
-  updateSource: (newInput: string) => void;
-  updateTarget: (newInput: string) => void;
+  translations: { input: string; translation: string; target: string }[];
+  updateInput: (id: number, newInput: string) => void;
+  updateTranslation: (id: number, newInput: string) => void;
+  updateTarget: (id: number, newInput: string) => void;
 }
 
 const useTranslateStore = create<TranslateStore>((set) => ({
-  input: "",
-  translation: "",
-  source: "en",
-  target: "zh-TW",
-  updateInput: (newInput) => set((state) => ({ ...state, input: newInput })),
-  updateTranslation: (newInput) =>
-    set((state) => ({ ...state, translation: newInput })),
-  updateSource: (newInput) => set((state) => ({ ...state, source: newInput })),
-  updateTarget: (newInput) => set((state) => ({ ...state, target: newInput })),
+  translations: [
+    {
+      input: "",
+      translation: "",
+      target: "Traditional Chinese",
+    },
+  ],
+  updateInput: (id, newInput) =>
+    set((state) => {
+      state.translations[id].input = newInput;
+      return { ...state };
+    }),
+  updateTranslation: (id, newInput) =>
+    set((state) => {
+      console.log(newInput);
+      state.translations[id].translation = newInput;
+      return { ...state };
+    }),
+  updateTarget: (id, newInput) =>
+    set((state) => {
+      state.translations[id].target = newInput;
+      return { ...state };
+    }),
 }));
 
 export default useTranslateStore;

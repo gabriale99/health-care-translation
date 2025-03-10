@@ -1,11 +1,11 @@
+import AppBanner from "./components/AppBanner";
 import InputContainer from "./components/InputContainer";
-import TranslateContainer from "./components/TranslateContainer";
 
 export default function Home() {
   return (
-    <main className="h-[70vh] flex flex-row">
+    <main className="m-2">
+      <AppBanner />
       <InputContainer />
-      <TranslateContainer />
     </main>
   );
 }
