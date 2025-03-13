@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
         role: "developer",
         content: `
         You are a medical expert who is fluent in multiple languages.
-        A user is typing in his input. Translate that input to ${body.target}.
+        Translate user's input to ${body.target}.
         If a question is detected, answer the question in the target language.
         Otherwise, if there is any medical terms in the user's input, explain each term in brief detail in the target language on a separate paragraph.
         Here's an example of what the output should look like:
@@ -34,8 +34,11 @@ export async function POST(req: NextRequest) {
         Cancer: A tumor in a human body
 
         Make sure the output is in the target language.
-        Input: ${body.input}
         `,
+      },
+      {
+        role: "user",
+        content: body.input,
       },
     ],
     model: "gpt-4o-mini",
